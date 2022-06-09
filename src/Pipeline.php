@@ -235,7 +235,7 @@ class Pipeline implements PipelineContract
                     return $this->handleCarry($carry);
                 } catch (Throwable $e) {
                     if ($this->onFailure) {
-                        return ($this->onFailure)($pipe);
+                        return ($this->onFailure)($passable, $e, $pipe);
                     }
 
                     return $this->handleException($passable, $e);

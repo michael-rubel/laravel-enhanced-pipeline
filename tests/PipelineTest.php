@@ -8,18 +8,35 @@ use MichaelRubel\EnhancedPipeline\Pipeline;
 
 class PipelineTest extends TestCase
 {
-    public function testExceptionIsHandledByOnFailureMethodInPipelineWithOriginalClass()
+    public function testExceptionIsHandledByOnFailureMethodInPipeline()
     {
         $result = app(\MichaelRubel\EnhancedPipeline\Pipeline::class)
             ->send('data')
             ->through(PipelineWithException::class)
-            ->onFailure(function () {
+            ->onFailure(function ($piped) {
                 return 'error';
             })->then(function ($piped) {
                 return $piped;
             });
 
         $this->assertEquals('error', $result);
+    }
+
+    public function testExceptionIsHandledByOnFailureWithPipedDataPassed()
+    {
+        $result = app(\MichaelRubel\EnhancedPipeline\Pipeline::class)
+            ->send('data')
+            ->through(PipelineWithException::class)
+            ->onFailure(function ($piped, $exception, $pipe) {
+                $this->assertInstanceOf(PipelineWithException::class, $pipe);
+                $this->assertInstanceOf(\Exception::class, $exception);
+
+                return $piped;
+            })->then(function ($piped) {
+                return $piped;
+            });
+
+        $this->assertEquals('data', $result);
     }
 
     /** @test */
