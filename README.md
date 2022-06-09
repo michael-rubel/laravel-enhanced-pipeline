@@ -1,3 +1,5 @@
+![Enhanced Pipeline in Laravel](https://user-images.githubusercontent.com/37669560/172863061-f51a08ae-01fc-40b3-995f-69138feb0380.png)
+
 # Laravel Enhanced Pipeline
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/michael-rubel/laravel-enhanced-pipeline.svg?style=flat-square&logo=packagist)](https://packagist.org/packages/michael-rubel/laravel-enhanced-pipeline)
 [![Total Downloads](https://img.shields.io/packagist/dt/michael-rubel/laravel-enhanced-pipeline.svg?style=flat-square&logo=packagist)](https://packagist.org/packages/michael-rubel/laravel-enhanced-pipeline)
