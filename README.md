@@ -55,6 +55,11 @@ app(Pipeline::class)
     ...
 ```
 
+If you want to override the original Laravel's pipeline resolved through IoC Container, you can add binding in the ServiceProvider's register method:
+```php
+$this->app->singleton(\Illuminate\Pipeline\Pipeline::class, \MichaelRubel\EnhancedPipeline\Pipeline::class);
+```
+
 ## Credits
 - [chefhasteeth](https://github.com/chefhasteeth) for implementation of DB transaction in Pipeline.
 - [rezaamini-ir](https://github.com/rezaamini-ir) for inspiration to create pipeline with `onFailure` method. See [#PR](https://github.com/laravel/framework/pull/42634)
