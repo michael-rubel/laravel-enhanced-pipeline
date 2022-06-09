@@ -166,7 +166,7 @@ class Pipeline implements PipelineContract
         } catch (Throwable $e) {
             $this->rollbackTransaction();
 
-            throw $e;
+            return $this->handleException($this->passable, $e);
         }
     }
 
@@ -191,11 +191,7 @@ class Pipeline implements PipelineContract
     protected function prepareDestination(Closure $destination)
     {
         return function ($passable) use ($destination) {
-            try {
-                return $destination($passable);
-            } catch (Throwable $e) {
-                return $this->handleException($passable, $e);
-            }
+            return $destination($passable);
         };
     }
 
