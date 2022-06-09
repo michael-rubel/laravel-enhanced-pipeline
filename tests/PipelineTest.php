@@ -2,6 +2,10 @@
 
 namespace MichaelRubel\EnhancedPipeline\Tests;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Facades\DB;
+use MichaelRubel\EnhancedPipeline\Pipeline;
+
 class PipelineTest extends TestCase
 {
     public function testExceptionIsHandledByOnFailureMethodInPipelineWithOriginalClass()
@@ -17,6 +21,101 @@ class PipelineTest extends TestCase
 
         $this->assertEquals('error', $result);
     }
+
+    /** @test */
+    public function runsThroughAnEntirePipeline()
+    {
+        $function1 = function ($piped, $next) {
+            $piped = $piped + 1;
+
+            return $next($piped);
+        };
+
+        $function2 = function ($piped, $next) {
+            $piped = $piped + 2;
+
+            return $next($piped);
+        };
+
+        $result = Pipeline::make()
+            ->send(0)
+            ->through($function1, $function2)
+            ->thenReturn();
+
+        $this->assertSame(3, $result);
+    }
+
+    /** @test */
+    public function throwsExceptionFromPipeline()
+    {
+        $this->assertThrows(
+            function () {
+                Pipeline::make()
+                    ->send('test')
+                    ->through(fn () => throw new \UnexpectedValueException)
+                    ->thenReturn();
+            },
+            \UnexpectedValueException::class,
+        );
+    }
+
+    /** @test */
+    public function throwsExceptionWithInvalidPipeType()
+    {
+        $this->assertThrows(
+            function () {
+                Pipeline::make()
+                    ->send('test')
+                    ->through('not a callable or class string')
+                    ->thenReturn();
+            },
+            BindingResolutionException::class,
+        );
+    }
+
+    /** @test */
+    public function acceptsClassStringsAsPipes()
+    {
+        $result = Pipeline::make()
+            ->send('test data')
+            ->through(TestPipe::class)
+            ->thenReturn();
+
+        $this->assertSame('test data', $result);
+    }
+
+    /** @test */
+    public function successfullyCompletesADatabaseTransaction()
+    {
+        $database = DB::spy();
+
+        Pipeline::make()
+            ->withTransaction()
+            ->send('test')
+            ->through(
+                fn ($data, $next) => $next($data)
+            )->thenReturn();
+
+        $database->shouldHaveReceived('beginTransaction')->once();
+        $database->shouldHaveReceived('commit')->once();
+    }
+
+    /** @test */
+    public function rollsTheDatabaseTransactionBackOnFailure()
+    {
+        $database = DB::spy();
+
+        rescue(
+            fn () => Pipeline::make()
+                ->withTransaction()
+                ->send('test')
+                ->through(fn () => throw new \UnexpectedValueException)
+                ->thenReturn(),
+        );
+
+        $database->shouldHaveReceived('beginTransaction')->once();
+        $database->shouldHaveReceived('rollBack')->once();
+    }
 }
 
 class PipelineWithException
@@ -24,5 +123,13 @@ class PipelineWithException
     public function handle($piped, $next)
     {
         throw new \Exception('Foo');
+    }
+}
+
+class TestPipe
+{
+    public function handle($passable)
+    {
+        return $passable;
     }
 }
