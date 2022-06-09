@@ -3,7 +3,7 @@
 namespace MichaelRubel\EnhancedPipeline\Tests;
 
 use Illuminate\Container\Container;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use stdClass;

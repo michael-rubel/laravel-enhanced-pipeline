@@ -272,10 +272,10 @@ class Pipeline implements PipelineContract
     {
         return [
             ...$this->pipes,
-            function ($passable) {
+            function ($passable, $next) {
                 $this->commitTransaction();
 
-                return $passable;
+                return $next($passable);
             },
         ];
     }
