@@ -65,29 +65,23 @@ class PipelineTest extends TestCase
     /** @test */
     public function throwsExceptionFromPipeline()
     {
-        $this->assertThrows(
-            function () {
-                Pipeline::make()
-                    ->send('test')
-                    ->through(fn () => throw new \UnexpectedValueException)
-                    ->thenReturn();
-            },
-            \UnexpectedValueException::class,
-        );
+        $this->expectException(\UnexpectedValueException::class);
+
+        Pipeline::make()
+            ->send('test')
+            ->through(fn () => throw new \UnexpectedValueException)
+            ->thenReturn();
     }
 
     /** @test */
     public function throwsExceptionWithInvalidPipeType()
     {
-        $this->assertThrows(
-            function () {
-                Pipeline::make()
-                    ->send('test')
-                    ->through('not a callable or class string')
-                    ->thenReturn();
-            },
-            BindingResolutionException::class,
-        );
+        $this->expectException(BindingResolutionException::class);
+
+        Pipeline::make()
+            ->send('test')
+            ->through('not a callable or class string')
+            ->thenReturn();
     }
 
     /** @test */
