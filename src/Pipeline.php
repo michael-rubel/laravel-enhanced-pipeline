@@ -349,6 +349,8 @@ class Pipeline implements PipelineContract
     }
 
     /**
+     * Begin the transaction if enabled.
+     *
      * @return void
      */
     protected function beginTransaction(): void
@@ -361,6 +363,8 @@ class Pipeline implements PipelineContract
     }
 
     /**
+     * Commit the transaction if enabled.
+     *
      * @return void
      */
     protected function commitTransaction(): void
@@ -373,6 +377,8 @@ class Pipeline implements PipelineContract
     }
 
     /**
+     * Rollback the transaction if enabled.
+     *
      * @return void
      */
     protected function rollbackTransaction(): void
