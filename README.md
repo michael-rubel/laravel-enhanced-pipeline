@@ -53,6 +53,10 @@ app(Pipeline::class)
 
 (new Pipeline(app()))
     ...
+
+(new Pipeline)
+    ->setContainer(app())
+    ...
 ```
 
 If you want to override the original Laravel's pipeline resolved through IoC Container, you can add binding in the ServiceProvider's register method:
