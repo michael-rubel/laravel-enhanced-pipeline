@@ -20,15 +20,4 @@ class EnhancedPipelineServiceProvider extends PackageServiceProvider
     {
         $package->name('laravel-enhanced-pipeline');
     }
-
-    /**
-     * @return void
-     */
-    public function packageRegistered(): void
-    {
-        $this->app->scoped(
-            \Illuminate\Pipeline\Pipeline::class,
-            \MichaelRubel\EnhancedPipeline\Pipeline::class
-        );
-    }
 }
