@@ -18,7 +18,6 @@
     on the command line will ignore all file tags.
     -->
     <file>src</file>
-    <file>tests</file>
 
     <!--
        You can hard-code ignore patterns directly into your

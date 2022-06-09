@@ -157,7 +157,9 @@ class Pipeline implements PipelineContract
             $this->beginTransaction();
 
             $pipeline = array_reduce(
-                array_reverse($this->pipes()), $this->carry(), $this->prepareDestination($destination)
+                array_reverse($this->pipes()),
+                $this->carry(),
+                $this->prepareDestination($destination)
             );
 
             return $pipeline($this->passable);
