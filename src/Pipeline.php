@@ -57,6 +57,18 @@ class Pipeline implements PipelineContract
     }
 
     /**
+     * Create a new class instance.
+     *
+     * @param Container|null $container
+     *
+     * @return Pipeline
+     */
+    public static function make(Container $container = null): Pipeline
+    {
+        return new Pipeline($container);
+    }
+
+    /**
      * Set the object being sent through the pipeline.
      *
      * @param  mixed  $passable
