@@ -10,7 +10,8 @@ class PipelineTest extends TestCase
 {
     public function testExceptionIsHandledByOnFailureMethodInPipeline()
     {
-        $result = app(\MichaelRubel\EnhancedPipeline\Pipeline::class)
+        $result = (new Pipeline)
+            ->setContainer(app())
             ->send('data')
             ->through(PipelineWithException::class)
             ->onFailure(function ($piped) {
