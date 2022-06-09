@@ -48,7 +48,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "EnhancedPipelineServiceProvider"
+                "MichaelRubel\\EnhancedPipeline\\EnhancedPipelineServiceProvider"
             ]
         }
     },
