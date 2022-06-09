@@ -6,7 +6,7 @@
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-pipeline/run-tests/main?style=flat-square&label=tests&logo=github)](https://github.com/michael-rubel/laravel-enhanced-pipeline/actions)
 [![PHPStan](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-pipeline/phpstan/main?style=flat-square&label=larastan&logo=laravel)](https://github.com/michael-rubel/laravel-enhanced-pipeline/actions)
 
-Laravel pipelines with transaction support and handy additional methods.
+Laravel pipelines with DB transaction support and handy additional methods.
 
 ---
 
