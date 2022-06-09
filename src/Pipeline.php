@@ -5,6 +5,7 @@ namespace MichaelRubel\EnhancedPipeline;
 use Closure;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Pipeline\Pipeline as PipelineContract;
+use Illuminate\Support\Facades\DB;
 use RuntimeException;
 use Throwable;
 
@@ -46,6 +47,13 @@ class Pipeline implements PipelineContract
     protected $method = 'handle';
 
     /**
+     * Determines whether pipeline uses transaction.
+     *
+     * @var bool
+     */
+    protected bool $useTransaction = false;
+
+    /**
      * Create a new class instance.
      *
      * @param  \Illuminate\Contracts\Container\Container|null  $container
@@ -66,6 +74,18 @@ class Pipeline implements PipelineContract
     public static function make(Container $container = null): Pipeline
     {
         return new Pipeline($container);
+    }
+
+    /**
+     * Enable transaction in pipeline.
+     *
+     * @return Pipeline
+     */
+    public function withTransaction(): Pipeline
+    {
+        $this->useTransaction = true;
+
+        return $this;
     }
 
     /**
@@ -128,11 +148,19 @@ class Pipeline implements PipelineContract
      */
     public function then(Closure $destination)
     {
-        $pipeline = array_reduce(
-            array_reverse($this->pipes()), $this->carry(), $this->prepareDestination($destination)
-        );
+        try {
+            $this->beginTransaction();
 
-        return $pipeline($this->passable);
+            $pipeline = array_reduce(
+                array_reverse($this->pipes()), $this->carry(), $this->prepareDestination($destination)
+            );
+
+            return $pipeline($this->passable);
+        } catch (Throwable $e) {
+            $this->rollbackTransaction();
+
+            throw $e;
+        }
     }
 
     /**
@@ -235,7 +263,14 @@ class Pipeline implements PipelineContract
      */
     protected function pipes()
     {
-        return $this->pipes;
+        return [
+            ...$this->pipes,
+            function ($passable) {
+                $this->commitTransaction();
+
+                return $passable;
+            },
+        ];
     }
 
     /**
@@ -304,5 +339,41 @@ class Pipeline implements PipelineContract
     protected function handleException($passable, Throwable $e)
     {
         throw $e;
+    }
+
+    /**
+     * @return void
+     */
+    protected function beginTransaction(): void
+    {
+        if (! $this->useTransaction) {
+            return;
+        }
+
+        DB::beginTransaction();
+    }
+
+    /**
+     * @return void
+     */
+    protected function commitTransaction(): void
+    {
+        if (! $this->useTransaction) {
+            return;
+        }
+
+        DB::commit();
+    }
+
+    /**
+     * @return void
+     */
+    protected function rollbackTransaction(): void
+    {
+        if (! $this->useTransaction) {
+            return;
+        }
+
+        DB::rollBack();
     }
 }
