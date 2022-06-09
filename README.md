@@ -24,7 +24,7 @@ composer require michael-rubel/laravel-enhanced-pipeline
 ## Usage
 Import modified pipeline to your class:
 ```php
-use MichaelRubel\EnhancedPipeline\Pipeline::class;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 ```
 
 Then use the same way as an original one:
