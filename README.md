@@ -27,7 +27,7 @@ Import modified pipeline to your class:
 use MichaelRubel\EnhancedPipeline\Pipeline;
 ```
 
-Then use the same way as an original one:
+Then you can make the pipeline:
 ```php
 Pipeline::make()
     ->withTransaction()
