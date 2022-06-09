@@ -40,6 +40,8 @@ Pipeline::make()
 
         return $data;
     })->then(function ($data) {
+        // do something when all pipes completed their work
+
         return $data;
     });
 ```
