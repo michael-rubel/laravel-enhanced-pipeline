@@ -53,6 +53,10 @@ app(Pipeline::class)
     ...
 ```
 
+## Credits
+- [chefhasteeth](https://github.com/chefhasteeth) for implementation of DB transaction in Pipeline.
+- [rezaamini-ir](https://github.com/rezaamini-ir) for inspiration to create pipeline with `onFailure` method. See [#PR](https://github.com/laravel/framework/pull/42634)
+
 ## Testing
 ```bash
 composer test
