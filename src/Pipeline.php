@@ -3,6 +3,7 @@
 namespace MichaelRubel\EnhancedPipeline;
 
 use Closure;
+use Illuminate\Container\Container as ContainerConcrete;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Pipeline\Pipeline as PipelineContract;
 use Illuminate\Support\Facades\DB;
@@ -73,6 +74,10 @@ class Pipeline implements PipelineContract
      */
     public static function make(Container $container = null): Pipeline
     {
+        if (! $container) {
+            $container = ContainerConcrete::getInstance();
+        }
+
         return new Pipeline($container);
     }
 
