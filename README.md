@@ -22,17 +22,35 @@ composer require michael-rubel/laravel-enhanced-pipeline
 ```
 
 ## Usage
+Import modified pipeline to your class:
 ```php
-app(\MichaelRubel\EnhancedPipeline\Pipeline::class)
+use MichaelRubel\EnhancedPipeline\Pipeline::class;
+```
+
+Then use the same way as an original one:
+```php
+Pipeline::make()
+    ->withTransaction()
     ->send($data)
     ->through([
         // your pipes
     ])
-    ->onFailure(function () {
-        return 'error';
+    ->onFailure(function ($data, $exception, $pipe) {
+        // do something when exception caught
+
+        return $data;
     })->then(function ($data) {
         return $data;
     });
+```
+
+You can as well instantiate the pipeline using IoC or manually:
+```php
+app(Pipeline::class)
+    ...
+
+(new Pipeline(app()))
+    ...
 ```
 
 ## Testing
