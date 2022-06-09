@@ -1,12 +1,12 @@
 {
-    "name": "michael-rubel/laravel-package-template",
-    "description": "It is an example template for Laravel packages. Fill or change it the way you like.",
+    "name": "michael-rubel/laravel-enhanced-pipeline",
+    "description": "Laravel pipelines with transaction support and handy additional methods.",
     "keywords": [
         "michael-rubel",
         "laravel",
-        "laravel-package-template"
+        "laravel-enhanced-pipeline"
     ],
-    "homepage": "https://github.com/michael-rubel/laravel-package-template",
+    "homepage": "https://github.com/michael-rubel/laravel-enhanced-pipeline",
     "license": "MIT",
     "authors": [
         {
@@ -30,12 +30,12 @@
     },
     "autoload": {
         "psr-4": {
-            "MichaelRubel\\PackageTemplate\\": "src"
+            "MichaelRubel\\EnhancedPipeline\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "MichaelRubel\\PackageTemplate\\Tests\\": "tests"
+            "MichaelRubel\\EnhancedPipeline\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -48,7 +48,7 @@
     "extra": {
         "laravel": {
             "providers": [
-              "MichaelRubel\\PackageTemplate\\TemplateServiceProvider"
+                "EnhancedPipelineServiceProvider"
             ]
         }
     },

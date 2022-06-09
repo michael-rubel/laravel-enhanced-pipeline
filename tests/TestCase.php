@@ -1,8 +1,8 @@
 <?php
 
-namespace MichaelRubel\PackageTemplate\Tests;
+namespace MichaelRubel\EnhancedPipeline\Tests;
 
-use MichaelRubel\PackageTemplate\TemplateServiceProvider;
+use MichaelRubel\EnhancedPipeline\EnhancedPipelineServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
@@ -15,7 +15,7 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app): array
     {
         return [
-            TemplateServiceProvider::class,
+            EnhancedPipelineServiceProvider::class,
         ];
     }
 
