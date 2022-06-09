@@ -6,12 +6,14 @@ use Closure;
 use Illuminate\Container\Container as ContainerConcrete;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Pipeline\Pipeline as PipelineContract;
-use Illuminate\Support\Facades\DB;
+use MichaelRubel\EnhancedPipeline\Traits\HandlesDatabaseTransactions;
 use RuntimeException;
 use Throwable;
 
 class Pipeline implements PipelineContract
 {
+    use HandlesDatabaseTransactions;
+
     /**
      * The container implementation.
      *
@@ -46,13 +48,6 @@ class Pipeline implements PipelineContract
      * @var string
      */
     protected $method = 'handle';
-
-    /**
-     * Determines whether pipeline uses transaction.
-     *
-     * @var bool
-     */
-    protected bool $useTransaction = false;
 
     /**
      * Create a new class instance.
@@ -342,47 +337,5 @@ class Pipeline implements PipelineContract
     protected function handleException($passable, Throwable $e)
     {
         throw $e;
-    }
-
-    /**
-     * Begin the transaction if enabled.
-     *
-     * @return void
-     */
-    protected function beginTransaction(): void
-    {
-        if (! $this->useTransaction) {
-            return;
-        }
-
-        DB::beginTransaction();
-    }
-
-    /**
-     * Commit the transaction if enabled.
-     *
-     * @return void
-     */
-    protected function commitTransaction(): void
-    {
-        if (! $this->useTransaction) {
-            return;
-        }
-
-        DB::commit();
-    }
-
-    /**
-     * Rollback the transaction if enabled.
-     *
-     * @return void
-     */
-    protected function rollbackTransaction(): void
-    {
-        if (! $this->useTransaction) {
-            return;
-        }
-
-        DB::rollBack();
     }
 }
