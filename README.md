@@ -61,7 +61,7 @@ app(Pipeline::class)
     ...
 ```
 
-If you want to override the original Laravel's pipeline resolved through IoC Container, you can add binding in the ServiceProvider's register method:
+If you want to override the original [Pipeline](https://github.com/laravel/framework/blob/9.x/src/Illuminate/Pipeline/Pipeline.php) resolved through IoC Container, you can add binding in the ServiceProvider `register` method:
 ```php
 $this->app->singleton(\Illuminate\Pipeline\Pipeline::class, \MichaelRubel\EnhancedPipeline\Pipeline::class);
 ```
