@@ -77,18 +77,6 @@ class Pipeline implements PipelineContract
     }
 
     /**
-     * Enable transaction in pipeline.
-     *
-     * @return Pipeline
-     */
-    public function withTransaction(): Pipeline
-    {
-        $this->useTransaction = true;
-
-        return $this;
-    }
-
-    /**
      * Set the object being sent through the pipeline.
      *
      * @param  mixed  $passable

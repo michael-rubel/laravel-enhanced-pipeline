@@ -16,6 +16,18 @@ trait HandlesDatabaseTransactions
     protected bool $useTransaction = false;
 
     /**
+     * Enable transaction in pipeline.
+     *
+     * @return static
+     */
+    public function withTransaction(): static
+    {
+        $this->useTransaction = true;
+
+        return $this;
+    }
+
+    /**
      * Begin the transaction if enabled.
      *
      * @return void
