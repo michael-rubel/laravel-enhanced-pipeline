@@ -12,8 +12,6 @@ Laravel pipelines with DB transaction support and handy additional methods.
 
 ---
 
-The package requires PHP `^8.x` and Laravel `^8.71` or `^9.0`.
-
 ## #StandWithUkraine
 [![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
 
