@@ -175,12 +175,12 @@ class OriginalPipelineTest extends TestCase
 
                 $_SERVER['__test.pipe.return'] = $value;
 
-                return 'pipe::'.$value;
+                return 'pipe::' . $value;
             }])
             ->then(function ($piped) {
                 $_SERVER['__test.then.arg'] = $piped;
 
-                return 'then'.$piped;
+                return 'then' . $piped;
             });
 
         $this->assertSame('pipe::then::not_foo::', $result);
@@ -196,7 +196,7 @@ class OriginalPipelineTest extends TestCase
 
         $result = (new Pipeline(new Container))
             ->send('foo')
-            ->through(PipelineTestParameterPipe::class.':'.implode(',', $parameters))
+            ->through(PipelineTestParameterPipe::class . ':' . implode(',', $parameters))
             ->then(function ($piped) {
                 return $piped;
             });
