@@ -63,7 +63,7 @@ class Pipeline implements PipelineContract
     /**
      * Create a new class instance.
      *
-     * @param Container|null $container
+     * @param  Container|null  $container
      *
      * @return Pipeline
      */
@@ -291,7 +291,7 @@ class Pipeline implements PipelineContract
     /**
      * Set callback to be executed on failure pipeline.
      *
-     * @param Closure $callback
+     * @param  Closure  $callback
      *
      * @return $this
      */
