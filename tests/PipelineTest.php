@@ -28,8 +28,7 @@ class PipelineTest extends TestCase
         $result = app(\MichaelRubel\EnhancedPipeline\Pipeline::class)
             ->send('data')
             ->through(PipelineWithException::class)
-            ->onFailure(function ($piped, $exception, $pipe) {
-                $this->assertInstanceOf(PipelineWithException::class, $pipe);
+            ->onFailure(function ($piped, $exception) {
                 $this->assertInstanceOf(\Exception::class, $exception);
 
                 return $piped;
@@ -122,6 +121,24 @@ class PipelineTest extends TestCase
                 ->withTransaction()
                 ->send('test')
                 ->through(fn () => throw new \UnexpectedValueException)
+                ->thenReturn(),
+        );
+
+        $database->shouldHaveReceived('beginTransaction')->once();
+        $database->shouldHaveReceived('rollBack')->once();
+    }
+
+    /** @test */
+    public function rollsTheDatabaseTransactionBackOnFailureWhenOnFailureMethodUsed()
+    {
+        $database = DB::spy();
+
+        rescue(
+            fn () => Pipeline::make()
+                ->withTransaction()
+                ->send('test')
+                ->through(fn () => throw new \UnexpectedValueException)
+                ->onFailure(fn () => true)
                 ->thenReturn(),
         );
 
