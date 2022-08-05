@@ -149,10 +149,8 @@ class PipelineTest extends TestCase
     /** @test */
     public function testPipelineHelper()
     {
-        $test = pipeline(
-            'test',
-            fn ($data, $next) => $next($data)
-        )->thenReturn();
+        $test = pipeline('test', fn ($data, $next) => $next($data))
+            ->thenReturn();
 
         $this->assertSame('test', $test);
     }
