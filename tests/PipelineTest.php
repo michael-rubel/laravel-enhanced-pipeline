@@ -145,6 +145,17 @@ class PipelineTest extends TestCase
         $database->shouldHaveReceived('beginTransaction')->once();
         $database->shouldHaveReceived('rollBack')->once();
     }
+
+    /** @test */
+    public function testPipelineHelper()
+    {
+        $test = pipeline(
+            'test',
+            fn ($data, $next) => $next($data)
+        )->thenReturn();
+
+        $this->assertSame('test', $test);
+    }
 }
 
 class PipelineWithException
