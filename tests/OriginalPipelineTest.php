@@ -4,6 +4,7 @@ namespace MichaelRubel\EnhancedPipeline\Tests;
 
 use Illuminate\Container\Container;
 use MichaelRubel\EnhancedPipeline\Pipeline;
+use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use stdClass;
 
