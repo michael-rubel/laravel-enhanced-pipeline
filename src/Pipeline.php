@@ -8,13 +8,13 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Pipeline\Pipeline as PipelineContract;
 use MichaelRubel\EnhancedPipeline\Events\PipePassed;
 use MichaelRubel\EnhancedPipeline\Events\PipeStarted;
-use MichaelRubel\EnhancedPipeline\Traits\HandlesDatabaseTransactions;
+use MichaelRubel\EnhancedPipeline\Traits\HasDatabaseTransactions;
 use RuntimeException;
 use Throwable;
 
 class Pipeline implements PipelineContract
 {
-    use HandlesDatabaseTransactions;
+    use HasDatabaseTransactions;
 
     /**
      * The container implementation.

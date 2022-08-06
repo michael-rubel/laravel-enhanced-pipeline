@@ -6,7 +6,7 @@ namespace MichaelRubel\EnhancedPipeline\Traits;
 
 use Illuminate\Support\Facades\DB;
 
-trait HandlesDatabaseTransactions
+trait HasDatabaseTransactions
 {
     /**
      * Determines whether class uses transaction.
