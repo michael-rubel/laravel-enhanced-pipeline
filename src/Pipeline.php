@@ -6,15 +6,14 @@ use Closure;
 use Illuminate\Container\Container as ContainerConcrete;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Pipeline\Pipeline as PipelineContract;
-use MichaelRubel\EnhancedPipeline\Events\PipePassed;
-use MichaelRubel\EnhancedPipeline\Events\PipeStarted;
 use MichaelRubel\EnhancedPipeline\Traits\HasDatabaseTransactions;
+use MichaelRubel\EnhancedPipeline\Traits\HasEvents;
 use RuntimeException;
 use Throwable;
 
 class Pipeline implements PipelineContract
 {
-    use HasDatabaseTransactions;
+    use HasDatabaseTransactions, HasEvents;
 
     /**
      * The container implementation.
@@ -193,7 +192,7 @@ class Pipeline implements PipelineContract
     {
         return function ($stack, $pipe) {
             return function ($passable) use ($stack, $pipe) {
-                event(new PipeStarted($pipe, $passable));
+                $this->fireStartedEvent($pipe, $passable);
 
                 if (is_callable($pipe)) {
                     // If the pipe is a callable, then we will call it directly, but otherwise we
@@ -201,7 +200,7 @@ class Pipeline implements PipelineContract
                     // the appropriate method and arguments, returning the results back out.
                     $result = $pipe($passable, $stack);
 
-                    event(new PipePassed($pipe, $passable));
+                    $this->firePassedEvent($pipe, $passable);
 
                     return $result;
                 } elseif (! is_object($pipe)) {
@@ -224,7 +223,7 @@ class Pipeline implements PipelineContract
                                 ? $pipe->{$this->method}(...$parameters)
                                 : $pipe(...$parameters);
 
-                event(new PipePassed($pipe::class, $passable));
+                $this->firePassedEvent($pipe::class, $passable);
 
                 return $this->handleCarry($carry);
             };

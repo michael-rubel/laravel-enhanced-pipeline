@@ -20,6 +20,7 @@ class PipelineEventsTest extends TestCase
     public function testFiresPipeStartedEvents()
     {
         app(Pipeline::class)
+            ->withEvents()
             ->send('data')
             ->through([
                 TestPipe::class,
@@ -39,6 +40,7 @@ class PipelineEventsTest extends TestCase
     public function testFiresPipeStartedEventsButFailsToPass()
     {
         app(Pipeline::class)
+            ->withEvents()
             ->send('data')
             ->through(PipelineWithException::class)
             ->onFailure(fn () => true)
@@ -58,6 +60,7 @@ class PipelineEventsTest extends TestCase
     public function testFiresPipePassedEvents()
     {
         app(Pipeline::class)
+            ->withEvents()
             ->send('data')
             ->through([
                 TestPipe::class,
