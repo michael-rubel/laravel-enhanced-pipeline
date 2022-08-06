@@ -26,7 +26,7 @@ trait HasEvents
     }
 
     /**
-     * Fire the started event if enabled.
+     * Fire the event if enabled.
      *
      * @param  string  $event
      * @param  string|callable|mixed  $pipe
