@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedPipeline\Traits;
 
-use MichaelRubel\EnhancedPipeline\Events\PipePassed;
-use MichaelRubel\EnhancedPipeline\Events\PipeStarted;
-
 trait HasEvents
 {
     /**
@@ -31,38 +28,23 @@ trait HasEvents
     /**
      * Fire the started event if enabled.
      *
-     * @param  string  $pipe
+     * @param  string  $event
+     * @param  string|callable|mixed  $pipe
      * @param  mixed  $passable
      *
      * @return void
      */
-    protected function fireStartedEvent($pipe, $passable): void
-    {
-        if (! $this->useEvents) {
-            return;
-        }
-
-        event(new PipeStarted($pipe, $passable));
-    }
-
-    /**
-     * Fire the passed event if enabled.
-     *
-     * @param  mixed  $pipe
-     * @param  mixed  $passable
-     *
-     * @return void
-     */
-    protected function firePassedEvent($pipe, $passable): void
+    protected function fireEvent(string $event, $pipe, $passable): void
     {
         if (! $this->useEvents) {
             return;
         }
 
         if (is_object($pipe)) {
+            /** @var object $pipe */
             $pipe = $pipe::class;
         }
 
-        event(new PipePassed($pipe, $passable));
+        event(new $event($pipe, $passable));
     }
 }
