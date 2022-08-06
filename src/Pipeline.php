@@ -223,7 +223,7 @@ class Pipeline implements PipelineContract
                                 ? $pipe->{$this->method}(...$parameters)
                                 : $pipe(...$parameters);
 
-                $this->firePassedEvent($pipe::class, $passable);
+                $this->firePassedEvent($pipe, $passable);
 
                 return $this->handleCarry($carry);
             };

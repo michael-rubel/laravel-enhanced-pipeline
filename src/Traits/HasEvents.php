@@ -31,7 +31,7 @@ trait HasEvents
     /**
      * Fire the started event if enabled.
      *
-     * @param  mixed  $pipe
+     * @param  string  $pipe
      * @param  mixed  $passable
      *
      * @return void
@@ -57,6 +57,10 @@ trait HasEvents
     {
         if (! $this->useEvents) {
             return;
+        }
+
+        if (is_object($pipe)) {
+            $pipe = $pipe::class;
         }
 
         event(new PipePassed($pipe, $passable));
