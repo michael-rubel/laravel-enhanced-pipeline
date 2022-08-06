@@ -7,6 +7,7 @@ use Illuminate\Container\Container as ContainerConcrete;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Pipeline\Pipeline as PipelineContract;
 use MichaelRubel\EnhancedPipeline\Events\PipePassed;
+use MichaelRubel\EnhancedPipeline\Events\PipeStarted;
 use MichaelRubel\EnhancedPipeline\Traits\HandlesDatabaseTransactions;
 use RuntimeException;
 use Throwable;
@@ -192,6 +193,8 @@ class Pipeline implements PipelineContract
     {
         return function ($stack, $pipe) {
             return function ($passable) use ($stack, $pipe) {
+                event(new PipeStarted($pipe, $passable));
+
                 if (is_callable($pipe)) {
                     // If the pipe is a callable, then we will call it directly, but otherwise we
                     // will resolve the pipes out of the dependency container and call it with
