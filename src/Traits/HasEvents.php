@@ -31,8 +31,8 @@ trait HasEvents
     /**
      * Fire the started event if enabled.
      *
-     * @param $pipe
-     * @param $passable
+     * @param  mixed  $pipe
+     * @param  mixed  $passable
      *
      * @return void
      */
@@ -48,8 +48,8 @@ trait HasEvents
     /**
      * Fire the passed event if enabled.
      *
-     * @param $pipe
-     * @param $passable
+     * @param  mixed  $pipe
+     * @param  mixed  $passable
      *
      * @return void
      */
