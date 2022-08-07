@@ -35,7 +35,7 @@ Pipeline::make()
     ->through([
         // your pipes
     ])
-    ->onFailure(function ($data, $exception, $pipe) {
+    ->onFailure(function ($data, $exception) {
         // do something when exception caught
 
         return $data;
