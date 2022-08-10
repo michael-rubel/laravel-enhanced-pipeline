@@ -32,7 +32,10 @@
     "autoload": {
         "psr-4": {
             "MichaelRubel\\EnhancedPipeline\\": "src"
-        }
+        },
+        "files": [
+            "src/Helpers/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
