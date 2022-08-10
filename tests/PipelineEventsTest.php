@@ -3,6 +3,7 @@
 namespace MichaelRubel\EnhancedPipeline\Tests;
 
 use Illuminate\Support\Facades\Event;
+use MichaelRubel\EnhancedPipeline\EnhancedPipelineServiceProvider;
 use MichaelRubel\EnhancedPipeline\Events\PipePassed;
 use MichaelRubel\EnhancedPipeline\Events\PipeStarted;
 use MichaelRubel\EnhancedPipeline\Pipeline;
@@ -14,6 +15,15 @@ class PipelineEventsTest extends TestCase
         parent::setUp();
 
         Event::fake();
+    }
+
+    /** @test */
+    public function testMakesSureEventServiceProviderBoots()
+    {
+        app()->offsetUnset('events');
+        app()->register(EnhancedPipelineServiceProvider::class, true);
+
+        $this->assertTrue(app()->bound('events'));
     }
 
     /** @test */
