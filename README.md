@@ -76,9 +76,9 @@ $this->app->singleton(\Illuminate\Pipeline\Pipeline::class, \MichaelRubel\Enhanc
 Usage of `withTransaction` method will enable a [`manual DB transaction`](https://laravel.com/docs/9.x/database#manually-using-transactions) throughout the pipeline execution.
 
 ## Events
-Usage of `withEvents` method will enable [Laravel Events](https://laravel.com/docs/9.x/events#introduction) throughout the pipeline execution.
+Usage of `withEvents` method will enable [`Laravel Events`](https://laravel.com/docs/9.x/events#introduction) throughout the pipeline execution.
 
-### Available events
+#### Available events
 - [`PipeStarted`](https://github.com/michael-rubel/laravel-enhanced-pipeline/blob/main/src/Events/PipeStarted.php) - fired **before** execution of pipe;
 - [`PipePassed`](https://github.com/michael-rubel/laravel-enhanced-pipeline/blob/main/src/Events/PipePassed.php) - fired **after** execution of pipe.
 
