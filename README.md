@@ -46,6 +46,13 @@ Pipeline::make()
     });
 ```
 
+You can use the `pipeline` helper:
+```php
+pipeline($data, [
+    // pipes
+])->thenReturn();
+```
+
 You can as well instantiate the pipeline using IoC or manually:
 ```php
 app(Pipeline::class)
