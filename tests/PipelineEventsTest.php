@@ -21,8 +21,9 @@ class PipelineEventsTest extends TestCase
     public function testMakesSureEventServiceProviderBoots()
     {
         app()->offsetUnset('events');
-        app()->register(EnhancedPipelineServiceProvider::class, true);
+        $this->assertFalse(app()->bound('events'));
 
+        app()->register(EnhancedPipelineServiceProvider::class, true);
         $this->assertTrue(app()->bound('events'));
     }
 
