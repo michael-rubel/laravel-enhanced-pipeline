@@ -30,6 +30,7 @@ use MichaelRubel\EnhancedPipeline\Pipeline;
 Then you can make the pipeline:
 ```php
 Pipeline::make()
+    ->withEvents()
     ->withTransaction()
     ->send($data)
     ->through([
@@ -71,14 +72,24 @@ If you want to override the original [Pipeline](https://github.com/laravel/frame
 $this->app->singleton(\Illuminate\Pipeline\Pipeline::class, \MichaelRubel\EnhancedPipeline\Pipeline::class);
 ```
 
-## Credits
-- [chefhasteeth](https://github.com/chefhasteeth) for implementation of DB transaction in Pipeline.
-- [rezaamini-ir](https://github.com/rezaamini-ir) for inspiration to create pipeline with `onFailure` method. See [#PR](https://github.com/laravel/framework/pull/42634)
+## Transaction
+Usage of `withTransaction` method will enable a [`manual DB transaction`](https://laravel.com/docs/9.x/database#manually-using-transactions) throughout the pipeline execution.
+
+## Events
+Usage of `withEvents` method will enable [Laravel Events](https://laravel.com/docs/9.x/events#introduction) throughout the pipeline execution.
+
+### Available events
+- [`PipeStarted`](https://github.com/michael-rubel/laravel-enhanced-pipeline/blob/main/src/Events/PipeStarted.php) - fired **before** execution of pipe;
+- [`PipePassed`](https://github.com/michael-rubel/laravel-enhanced-pipeline/blob/main/src/Events/PipePassed.php) - fired **after** execution of pipe.
 
 ## Testing
 ```bash
 composer test
 ```
+
+## Credits
+- [chefhasteeth](https://github.com/chefhasteeth) for base implementation of DB transaction in Pipeline.
+- [rezaamini-ir](https://github.com/rezaamini-ir) for inspiration to create a pipeline with `onFailure` method. See [#PR](https://github.com/laravel/framework/pull/42634)
 
 ## License
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
