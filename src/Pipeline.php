@@ -6,13 +6,16 @@ use Closure;
 use Illuminate\Container\Container as ContainerConcrete;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Pipeline\Pipeline as PipelineContract;
-use MichaelRubel\EnhancedPipeline\Traits\HandlesDatabaseTransactions;
+use MichaelRubel\EnhancedPipeline\Events\PipePassed;
+use MichaelRubel\EnhancedPipeline\Events\PipeStarted;
+use MichaelRubel\EnhancedPipeline\Traits\HasDatabaseTransactions;
+use MichaelRubel\EnhancedPipeline\Traits\HasEvents;
 use RuntimeException;
 use Throwable;
 
 class Pipeline implements PipelineContract
 {
-    use HandlesDatabaseTransactions;
+    use HasDatabaseTransactions, HasEvents;
 
     /**
      * The container implementation.
@@ -191,11 +194,17 @@ class Pipeline implements PipelineContract
     {
         return function ($stack, $pipe) {
             return function ($passable) use ($stack, $pipe) {
+                $this->fireEvent(PipeStarted::class, $pipe, $passable);
+
                 if (is_callable($pipe)) {
                     // If the pipe is a callable, then we will call it directly, but otherwise we
                     // will resolve the pipes out of the dependency container and call it with
                     // the appropriate method and arguments, returning the results back out.
-                    return $pipe($passable, $stack);
+                    $result = $pipe($passable, $stack);
+
+                    $this->fireEvent(PipePassed::class, $pipe, $passable);
+
+                    return $result;
                 } elseif (! is_object($pipe)) {
                     [$name, $parameters] = $this->parsePipeString($pipe);
 
@@ -215,6 +224,8 @@ class Pipeline implements PipelineContract
                 $carry = method_exists($pipe, $this->method)
                                 ? $pipe->{$this->method}(...$parameters)
                                 : $pipe(...$parameters);
+
+                $this->fireEvent(PipePassed::class, $pipe, $passable);
 
                 return $this->handleCarry($carry);
             };
