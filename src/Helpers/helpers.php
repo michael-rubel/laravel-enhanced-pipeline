@@ -15,11 +15,11 @@ if (! function_exists('pipeline')) {
     {
         $pipeline = app(Pipeline::class);
 
-        if (filled($passable)) {
+        if (! is_null($passable)) {
             $pipeline->send($passable);
         }
 
-        if (filled($pipes)) {
+        if (! is_null($pipes)) {
             $pipeline->through($pipes);
         }
 
