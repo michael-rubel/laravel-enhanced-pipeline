@@ -11,10 +11,18 @@ if (! function_exists('pipeline')) {
      *
      * @return Pipeline
      */
-    function pipeline($passable, $pipes): Pipeline
+    function pipeline($passable = null, $pipes = null): Pipeline
     {
-        return app(Pipeline::class)
-            ->send($passable)
-            ->through($pipes);
+        $pipeline = app(Pipeline::class);
+
+        if (! is_null($passable)) {
+            $pipeline->send($passable);
+        }
+
+        if (! is_null($pipes)) {
+            $pipeline->through($pipes);
+        }
+
+        return $pipeline;
     }
 }
