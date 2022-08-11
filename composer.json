@@ -1,6 +1,6 @@
 {
     "name": "michael-rubel/laravel-enhanced-pipeline",
-    "description": "Laravel pipelines with transaction support and handy additional methods.",
+    "description": "Laravel Pipeline with DB transaction support, events and additional methods.",
     "keywords": [
         "michael-rubel",
         "laravel",
