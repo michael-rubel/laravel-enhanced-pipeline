@@ -11,7 +11,7 @@ if (! function_exists('pipeline')) {
      *
      * @return Pipeline
      */
-    function pipeline($passable = [], $pipes = []): Pipeline
+    function pipeline($passable = null, $pipes = null): Pipeline
     {
         $pipeline = app(Pipeline::class);
 
