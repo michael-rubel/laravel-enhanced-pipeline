@@ -154,6 +154,17 @@ class PipelineTest extends TestCase
 
         $this->assertSame('test', $test);
     }
+
+    /** @test */
+    public function testPipelineHelperWithoutParameters()
+    {
+        $test = pipeline()
+            ->send('data')
+            ->through(TestPipe::class)
+            ->thenReturn();
+
+        $this->assertSame('data', $test);
+    }
 }
 
 class PipelineWithException
