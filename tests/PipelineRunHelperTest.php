@@ -15,7 +15,9 @@ class PipelineRunHelperTest extends TestCase
 
     public function testRunHelperActionReturnsPassedData()
     {
-        $executed = run(Action::class, ['test' => 'yeah']);
+        $data = ['test' => 'yeah'];
+
+        $executed = run(Action::class, with($data));
 
         $this->assertSame('yeah', $executed['test']);
     }
