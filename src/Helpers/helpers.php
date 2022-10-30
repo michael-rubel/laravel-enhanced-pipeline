@@ -26,3 +26,18 @@ if (! function_exists('pipeline')) {
         return $pipeline;
     }
 }
+
+if (! function_exists('run')) {
+    /**
+     * @param  string  $action
+     * @param  mixed  $data
+     * @return mixed
+     */
+    function run(string $action, mixed $data = true): mixed
+    {
+        return app(Pipeline::class)
+            ->send($data)
+            ->through([$action])
+            ->thenReturn();
+    }
+}
