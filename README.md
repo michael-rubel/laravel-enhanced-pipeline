@@ -27,7 +27,7 @@ Import modified pipeline to your class:
 use MichaelRubel\EnhancedPipeline\Pipeline;
 ```
 
-Then you can make the pipeline:
+Then use the pipeline:
 ```php
 Pipeline::make()
     ->withEvents()
@@ -65,6 +65,18 @@ app(Pipeline::class)
 (new Pipeline)
     ->setContainer(app())
     ...
+```
+
+You can use the `run` helper to execute a single pipeline-compatible action:
+```php
+run(MyAction::class, $data);
+```
+
+By default, `run` uses the `handle` method in your action classes, but if you use a different method name in your pipelines, you can fix that by adding code to your ServiceProvider:
+```php
+$this->app->resolving(Pipeline::class, function ($pipeline) {
+    return $pipeline->via('execute');
+});
 ```
 
 If you want to override the original [Pipeline](https://github.com/laravel/framework/blob/9.x/src/Illuminate/Pipeline/Pipeline.php) resolved through IoC Container, you can add binding in the ServiceProvider `register` method:
