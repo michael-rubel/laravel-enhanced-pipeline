@@ -10,6 +10,8 @@
 
 Laravel Pipeline with DB transaction support, events and additional methods.
 
+The package requires `PHP 8` or higher and `Laravel 9` or higher.
+
 ---
 
 ## #StandWithUkraine
