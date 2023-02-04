@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Contracts\Pipeline\Pipeline as PipelineContract;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
 if (! function_exists('pipeline')) {
@@ -11,7 +12,7 @@ if (! function_exists('pipeline')) {
      *
      * @return Pipeline
      */
-    function pipeline($passable = null, $pipes = null): Pipeline
+    function pipeline($passable = null, $pipes = null): PipelineContract
     {
         $pipeline = app(Pipeline::class);
 
