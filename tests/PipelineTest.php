@@ -3,6 +3,7 @@
 namespace MichaelRubel\EnhancedPipeline\Tests;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Pipeline\Pipeline as OriginalPipeline;
 use Illuminate\Support\Facades\DB;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
@@ -164,6 +165,27 @@ class PipelineTest extends TestCase
             ->thenReturn();
 
         $this->assertSame('data', $test);
+    }
+
+    /** @test */
+    public function testCanOverrideOriginalPipeline()
+    {
+        $this->app->singleton(OriginalPipeline::class, Pipeline::class);
+
+        $pipeline = app(OriginalPipeline::class);
+        $this->assertInstanceOf(Pipeline::class, $pipeline);
+    }
+
+    /** @test */
+    public function testCanOverrideEnhancedPipeline()
+    {
+        $this->app->singleton(Pipeline::class, OriginalPipeline::class);
+
+        $pipeline = app(Pipeline::class);
+        $this->assertInstanceOf(OriginalPipeline::class, $pipeline);
+
+        $pipeline = pipeline();
+        $this->assertInstanceOf(OriginalPipeline::class, $pipeline);
     }
 }
 
