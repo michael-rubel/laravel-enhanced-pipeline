@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MichaelRubel\EnhancedPipeline\Tests;
 
 use Illuminate\Container\Container;
