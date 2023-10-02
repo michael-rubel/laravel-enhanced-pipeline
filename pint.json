@@ -4,6 +4,7 @@
     "Laravel/laravel_phpdoc_separation": false,
     "concat_space": {
       "spacing": "one"
-    }
+    },
+    "declare_strict_types": true
   }
 }
