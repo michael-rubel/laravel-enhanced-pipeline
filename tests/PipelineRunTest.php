@@ -6,31 +6,40 @@ namespace MichaelRubel\EnhancedPipeline\Tests;
 
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
-class PipelineRunHelperTest extends TestCase
+class PipelineRunTest extends TestCase
 {
-    public function testRunHelperWithoutParams()
+    public function testRunWithoutParams()
     {
-        $executed = run(Action::class);
+        $executed = Pipeline::make()->run(Action::class);
 
         $this->assertTrue($executed);
     }
 
-    public function testRunHelperActionReturnsPassedData()
+    public function testRunReturnsPassedData()
     {
         $data = ['test' => 'yeah'];
 
-        $executed = run(Action::class, with($data));
+        $executed = Pipeline::make()->run(Action::class, with($data));
 
         $this->assertSame('yeah', $executed['test']);
     }
 
-    public function testRunHelperHasCustomizableMethod()
+    public function testRunHasCustomizableMethod()
+    {
+        $executed = Pipeline::make()
+            ->via('execute')
+            ->run(ActionExecute::class);
+
+        $this->assertTrue($executed);
+    }
+
+    public function testRunHasCustomizableMethodViaContainer()
     {
         $this->app->resolving(Pipeline::class, function ($pipeline) {
             return $pipeline->via('execute');
         });
 
-        $executed = run(ActionExecute::class);
+        $executed = Pipeline::make()->run(ActionExecute::class);
 
         $this->assertTrue($executed);
     }

@@ -245,6 +245,36 @@ class OriginalPipelineTest extends TestCase
 
         unset($_SERVER['__test.pipe.one']);
     }
+
+    public function testPipelineConditionable()
+    {
+        $result = (new Pipeline(new Container))
+            ->send('foo')
+            ->when(true, function (Pipeline $pipeline) {
+                $pipeline->pipe([PipelineTestPipeOne::class]);
+            })
+            ->then(function ($piped) {
+                return $piped;
+            });
+
+        $this->assertSame('foo', $result);
+        $this->assertSame('foo', $_SERVER['__test.pipe.one']);
+        unset($_SERVER['__test.pipe.one']);
+
+        $_SERVER['__test.pipe.one'] = null;
+        $result = (new Pipeline(new Container))
+            ->send('foo')
+            ->when(false, function (Pipeline $pipeline) {
+                $pipeline->pipe([PipelineTestPipeOne::class]);
+            })
+            ->then(function ($piped) {
+                return $piped;
+            });
+
+        $this->assertSame('foo', $result);
+        $this->assertNull($_SERVER['__test.pipe.one']);
+        unset($_SERVER['__test.pipe.one']);
+    }
 }
 
 class PipelineTestPipeOne

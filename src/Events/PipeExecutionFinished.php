@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedPipeline\Events;
 
-class PipeStarted
+class PipeExecutionFinished
 {
     /**
      * @param  mixed  $pipe
