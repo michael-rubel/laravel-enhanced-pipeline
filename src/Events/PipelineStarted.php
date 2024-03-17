@@ -8,9 +8,12 @@ use Closure;
 
 class PipelineStarted
 {
+    /**
+     * @param  mixed  $passable
+     */
     public function __construct(
         public Closure $destination,
-        public mixed $passable,
+        public $passable,
         public array $pipes,
         public bool $useTransaction,
     ) {
