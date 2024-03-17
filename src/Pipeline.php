@@ -8,6 +8,7 @@ use Closure;
 use Illuminate\Container\Container as ContainerConcrete;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Pipeline\Pipeline as PipelineContract;
+use Illuminate\Support\Traits\Conditionable;
 use MichaelRubel\EnhancedPipeline\Events\PipePassed;
 use MichaelRubel\EnhancedPipeline\Events\PipeStarted;
 use MichaelRubel\EnhancedPipeline\Traits\HasDatabaseTransactions;
@@ -17,7 +18,7 @@ use Throwable;
 
 class Pipeline implements PipelineContract
 {
-    use HasDatabaseTransactions, HasEvents;
+    use Conditionable, HasDatabaseTransactions, HasEvents;
 
     /**
      * The container implementation.
