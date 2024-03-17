@@ -11,6 +11,8 @@ use Illuminate\Contracts\Pipeline\Pipeline as PipelineContract;
 use Illuminate\Support\Traits\Conditionable;
 use MichaelRubel\EnhancedPipeline\Events\PipeExecutionFinished;
 use MichaelRubel\EnhancedPipeline\Events\PipeExecutionStarted;
+use MichaelRubel\EnhancedPipeline\Events\PipelineFinished;
+use MichaelRubel\EnhancedPipeline\Events\PipelineStarted;
 use MichaelRubel\EnhancedPipeline\Traits\HasDatabaseTransactions;
 use MichaelRubel\EnhancedPipeline\Traits\HasEvents;
 use RuntimeException;
@@ -137,6 +139,13 @@ class Pipeline implements PipelineContract
     public function then(Closure $destination)
     {
         try {
+            $this->fireEvent(PipelineStarted::class,
+                $destination,
+                $this->passable,
+                $this->pipes(),
+                $this->useTransaction,
+            );
+
             $this->beginTransaction();
 
             $pipeline = array_reduce(
@@ -145,7 +154,19 @@ class Pipeline implements PipelineContract
                 $this->prepareDestination($destination)
             );
 
-            return $pipeline($this->passable);
+            $result = $pipeline($this->passable);
+
+            $this->commitTransaction();
+
+            $this->fireEvent(PipelineFinished::class,
+                $destination,
+                $this->passable,
+                $this->pipes(),
+                $this->useTransaction,
+                $result,
+            );
+
+            return $result;
         } catch (Throwable $e) {
             $this->rollbackTransaction();
 
@@ -252,14 +273,7 @@ class Pipeline implements PipelineContract
      */
     protected function pipes()
     {
-        return [
-            ...$this->pipes,
-            function ($passable, $next) {
-                $this->commitTransaction();
-
-                return $next($passable);
-            },
-        ];
+        return $this->pipes;
     }
 
     /**
@@ -292,7 +306,6 @@ class Pipeline implements PipelineContract
 
     /**
      * Set callback to be executed on failure pipeline.
-     *
      *
      * @return $this
      */

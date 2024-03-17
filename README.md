@@ -88,6 +88,8 @@ Usage of `withTransaction` method will enable a [`manual DB transaction`](https:
 Usage of `withEvents` method will enable [`Laravel Events`](https://laravel.com/docs/9.x/events#introduction) throughout the pipeline execution.
 
 #### Available events
+- [`PipelineStarted`](https://github.com/michael-rubel/laravel-enhanced-pipeline/blob/main/src/Events/PipelineStarted.php) - fired when the pipeline starts working;
+- [`PipelineFinished`](https://github.com/michael-rubel/laravel-enhanced-pipeline/blob/main/src/Events/PipelineFinished.php) - fired when the pipeline finishes its work;
 - [`PipeExecutionStarted`](https://github.com/michael-rubel/laravel-enhanced-pipeline/blob/main/src/Events/PipeExecutionStarted.php) - fired **before** execution of the pipe;
 - [`PipeExecutionFinished`](https://github.com/michael-rubel/laravel-enhanced-pipeline/blob/main/src/Events/PipeExecutionFinished.php) - fired **after** execution of the pipe.
 

@@ -24,20 +24,14 @@ trait HasEvents
     /**
      * Fire the event if enabled.
      *
-     * @param  string|callable|mixed  $pipe
-     * @param  mixed  $passable
+     * @param  mixed  ...$params
      */
-    protected function fireEvent(string $event, $pipe, $passable): void
+    protected function fireEvent(string $event, ...$params): void
     {
         if (! $this->useEvents) {
             return;
         }
 
-        if (is_object($pipe)) {
-            /** @var object $pipe */
-            $pipe = $pipe::class;
-        }
-
-        event(new $event($pipe, $passable));
+        event(new $event(...$params));
     }
 }
