@@ -304,6 +304,17 @@ class Pipeline implements PipelineContract
     }
 
     /**
+     * Run a single pipe.
+     */
+    public function run(string $pipe, mixed $data = true): mixed
+    {
+        return $this
+            ->send($data)
+            ->through([$pipe])
+            ->thenReturn();
+    }
+
+    /**
      * Handle the value returned from each pipe before passing it to the next.
      *
      * @param  mixed  $carry
