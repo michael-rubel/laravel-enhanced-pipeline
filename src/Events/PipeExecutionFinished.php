@@ -6,10 +6,12 @@ namespace MichaelRubel\EnhancedPipeline\Events;
 
 class PipeExecutionFinished
 {
-    public function __construct(
-        public mixed $pipe,
-        public mixed $passable,
-    ) {
+    /**
+     * @param  mixed  $pipe
+     * @param  mixed  $passable
+     */
+    public function __construct(public $pipe, public $passable)
+    {
         //
     }
 }
