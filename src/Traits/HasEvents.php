@@ -8,15 +8,11 @@ trait HasEvents
 {
     /**
      * Determines whether pipeline uses events.
-     *
-     * @var bool
      */
     protected bool $useEvents = false;
 
     /**
      * Enable events in pipeline.
-     *
-     * @return static
      */
     public function withEvents(): static
     {
@@ -28,11 +24,8 @@ trait HasEvents
     /**
      * Fire the event if enabled.
      *
-     * @param  string  $event
      * @param  string|callable|mixed  $pipe
      * @param  mixed  $passable
-     *
-     * @return void
      */
     protected function fireEvent(string $event, $pipe, $passable): void
     {

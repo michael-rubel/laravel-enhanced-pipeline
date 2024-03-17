@@ -10,15 +10,11 @@ trait HasDatabaseTransactions
 {
     /**
      * Determines whether class uses transaction.
-     *
-     * @var bool
      */
     protected bool $useTransaction = false;
 
     /**
      * Enable transaction in pipeline.
-     *
-     * @return static
      */
     public function withTransaction(): static
     {
@@ -29,8 +25,6 @@ trait HasDatabaseTransactions
 
     /**
      * Begin the transaction if enabled.
-     *
-     * @return void
      */
     protected function beginTransaction(): void
     {
@@ -43,8 +37,6 @@ trait HasDatabaseTransactions
 
     /**
      * Commit the transaction if enabled.
-     *
-     * @return void
      */
     protected function commitTransaction(): void
     {
@@ -57,8 +49,6 @@ trait HasDatabaseTransactions
 
     /**
      * Rollback the transaction if enabled.
-     *
-     * @return void
      */
     protected function rollbackTransaction(): void
     {
