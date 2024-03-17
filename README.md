@@ -10,7 +10,7 @@
 
 Laravel Pipeline with DB transaction support, events and additional methods.
 
-The package requires `PHP 8` or higher and `Laravel 9` or higher.
+The package requires `PHP 8.1` or higher and `Laravel 10` or higher.
 
 ---
 
@@ -49,14 +49,7 @@ Pipeline::make()
     });
 ```
 
-You can use the `pipeline` helper:
-```php
-pipeline($data, [
-    // pipes
-])->thenReturn();
-```
-
-You can as well instantiate the pipeline using IoC or manually:
+You can as well instantiate the pipeline using the service container or manually:
 ```php
 app(Pipeline::class)
     ...
@@ -69,12 +62,14 @@ app(Pipeline::class)
     ...
 ```
 
-You can use the `run` helper to execute a single pipeline-compatible action:
+You can use the `run` method to execute a single pipe:
 ```php
-run(MyAction::class, $data);
+$pipeline = Pipeline::make();
+
+$pipeline->run(Pipe::class, $data);
 ```
 
-By default, `run` uses the `handle` method in your action classes, but if you use a different method name in your pipelines, you can fix that by adding code to your ServiceProvider:
+By default, `run` uses the `handle` method in your class as an entry point, but if you use a different method name in your pipelines, you can fix that by adding code to your ServiceProvider:
 ```php
 $this->app->resolving(Pipeline::class, function ($pipeline) {
     return $pipeline->via('execute');
@@ -93,8 +88,8 @@ Usage of `withTransaction` method will enable a [`manual DB transaction`](https:
 Usage of `withEvents` method will enable [`Laravel Events`](https://laravel.com/docs/9.x/events#introduction) throughout the pipeline execution.
 
 #### Available events
-- [`PipeStarted`](https://github.com/michael-rubel/laravel-enhanced-pipeline/blob/main/src/Events/PipeStarted.php) - fired **before** execution of pipe;
-- [`PipePassed`](https://github.com/michael-rubel/laravel-enhanced-pipeline/blob/main/src/Events/PipePassed.php) - fired **after** execution of pipe.
+- [`PipeExecutionStarted`](https://github.com/michael-rubel/laravel-enhanced-pipeline/blob/main/src/Events/PipeExecutionStarted.php) - fired **before** execution of the pipe;
+- [`PipeExecutionFinished`](https://github.com/michael-rubel/laravel-enhanced-pipeline/blob/main/src/Events/PipeExecutionFinished.php) - fired **after** execution of the pipe.
 
 ## Testing
 ```bash
