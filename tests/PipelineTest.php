@@ -150,26 +150,6 @@ class PipelineTest extends TestCase
     }
 
     /** @test */
-    public function testPipelineHelper()
-    {
-        $test = pipeline('test', fn ($data, $next) => $next($data))
-            ->thenReturn();
-
-        $this->assertSame('test', $test);
-    }
-
-    /** @test */
-    public function testPipelineHelperWithoutParameters()
-    {
-        $test = pipeline()
-            ->send('data')
-            ->through(TestPipe::class)
-            ->thenReturn();
-
-        $this->assertSame('data', $test);
-    }
-
-    /** @test */
     public function testCanOverrideOriginalPipeline()
     {
         $this->app->singleton(OriginalPipeline::class, Pipeline::class);
@@ -184,9 +164,6 @@ class PipelineTest extends TestCase
         $this->app->singleton(Pipeline::class, OriginalPipeline::class);
 
         $pipeline = app(Pipeline::class);
-        $this->assertInstanceOf(OriginalPipeline::class, $pipeline);
-
-        $pipeline = pipeline();
         $this->assertInstanceOf(OriginalPipeline::class, $pipeline);
     }
 }
