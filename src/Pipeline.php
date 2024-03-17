@@ -74,7 +74,7 @@ class Pipeline implements PipelineContract
             $container = ContainerConcrete::getInstance();
         }
 
-        return new Pipeline($container);
+        return $container->make(static::class);
     }
 
     /**
