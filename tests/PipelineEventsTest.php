@@ -6,8 +6,8 @@ namespace MichaelRubel\EnhancedPipeline\Tests;
 
 use Illuminate\Support\Facades\Event;
 use MichaelRubel\EnhancedPipeline\EnhancedPipelineServiceProvider;
-use MichaelRubel\EnhancedPipeline\Events\PipePassed;
-use MichaelRubel\EnhancedPipeline\Events\PipeStarted;
+use MichaelRubel\EnhancedPipeline\Events\PipeExecutionFinished;
+use MichaelRubel\EnhancedPipeline\Events\PipeExecutionStarted;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
 class PipelineEventsTest extends TestCase
@@ -41,7 +41,7 @@ class PipelineEventsTest extends TestCase
             ])
             ->thenReturn();
 
-        Event::assertDispatched(function (PipeStarted $event) {
+        Event::assertDispatched(function (PipeExecutionStarted $event) {
             $this->assertInstanceOf(TestPipe::class, app($event->pipe));
             $this->assertSame('data', $event->passable);
 
@@ -59,14 +59,14 @@ class PipelineEventsTest extends TestCase
             ->onFailure(fn () => true)
             ->thenReturn();
 
-        Event::assertDispatched(function (PipeStarted $event) {
+        Event::assertDispatched(function (PipeExecutionStarted $event) {
             $this->assertInstanceOf(PipelineWithException::class, app($event->pipe));
             $this->assertSame('data', $event->passable);
 
             return true;
         });
 
-        Event::assertNotDispatched(PipePassed::class);
+        Event::assertNotDispatched(PipeExecutionFinished::class);
     }
 
     /** @test */
@@ -81,7 +81,7 @@ class PipelineEventsTest extends TestCase
             ])
             ->thenReturn();
 
-        Event::assertDispatched(function (PipePassed $event) {
+        Event::assertDispatched(function (PipeExecutionFinished $event) {
             $this->assertInstanceOf(TestPipe::class, app($event->pipe));
             $this->assertSame('data', $event->passable);
 
