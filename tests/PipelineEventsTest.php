@@ -15,14 +15,14 @@ use MichaelRubel\EnhancedPipeline\Pipeline;
 
 class PipelineEventsTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
         Event::fake();
     }
 
-    public function testMakesSureEventServiceProviderBoots()
+    public function test_makes_sure_event_service_provider_boots()
     {
         app()->offsetUnset('events');
         $this->assertFalse(app()->bound('events'));
@@ -31,7 +31,7 @@ class PipelineEventsTest extends TestCase
         $this->assertTrue(app()->bound('events'));
     }
 
-    public function testFiresPipelineStartedEvent()
+    public function test_fires_pipeline_started_event()
     {
         app(Pipeline::class)
             ->withEvents()
@@ -48,7 +48,7 @@ class PipelineEventsTest extends TestCase
         });
     }
 
-    public function testFiresPipelineFinishedEvent()
+    public function test_fires_pipeline_finished_event()
     {
         app(Pipeline::class)
             ->withEvents()
@@ -66,7 +66,7 @@ class PipelineEventsTest extends TestCase
         });
     }
 
-    public function testFiresPipeExecutionStartedEvent()
+    public function test_fires_pipe_execution_started_event()
     {
         app(Pipeline::class)
             ->withEvents()
@@ -85,7 +85,7 @@ class PipelineEventsTest extends TestCase
         }, 2);
     }
 
-    public function testFiresPipeExecutionStartedEventButFailsToFinish()
+    public function test_fires_pipe_execution_started_event_but_fails_to_finish()
     {
         app(Pipeline::class)
             ->withEvents()
@@ -104,7 +104,7 @@ class PipelineEventsTest extends TestCase
         Event::assertNotDispatched(PipeExecutionFinished::class);
     }
 
-    public function testFiresPipeExecutionFinishedEvent()
+    public function test_fires_pipe_execution_finished_event()
     {
         app(Pipeline::class)
             ->withEvents()

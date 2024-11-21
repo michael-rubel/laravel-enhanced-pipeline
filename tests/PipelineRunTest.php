@@ -8,14 +8,14 @@ use MichaelRubel\EnhancedPipeline\Pipeline;
 
 class PipelineRunTest extends TestCase
 {
-    public function testRunWithoutParams()
+    public function test_run_without_params()
     {
         $executed = Pipeline::make()->run(Action::class);
 
         $this->assertTrue($executed);
     }
 
-    public function testRunReturnsPassedData()
+    public function test_run_returns_passed_data()
     {
         $data = ['test' => 'yeah'];
 
@@ -24,7 +24,7 @@ class PipelineRunTest extends TestCase
         $this->assertSame('yeah', $executed['test']);
     }
 
-    public function testRunHasCustomizableMethod()
+    public function test_run_has_customizable_method()
     {
         $executed = Pipeline::make()
             ->via('execute')
@@ -33,7 +33,7 @@ class PipelineRunTest extends TestCase
         $this->assertTrue($executed);
     }
 
-    public function testRunHasCustomizableMethodViaContainer()
+    public function test_run_has_customizable_method_via_container()
     {
         $this->app->resolving(Pipeline::class, function ($pipeline) {
             return $pipeline->via('execute');
