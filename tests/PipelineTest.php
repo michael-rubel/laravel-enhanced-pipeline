@@ -11,7 +11,7 @@ use MichaelRubel\EnhancedPipeline\Pipeline;
 
 class PipelineTest extends TestCase
 {
-    public function testExceptionIsHandledByOnFailureMethodInPipeline()
+    public function test_exception_is_handled_by_on_failure_method_in_pipeline()
     {
         $result = (new Pipeline)
             ->setContainer(app())
@@ -26,7 +26,7 @@ class PipelineTest extends TestCase
         $this->assertEquals('error', $result);
     }
 
-    public function testExceptionIsHandledByOnFailureWithPipedDataPassed()
+    public function test_exception_is_handled_by_on_failure_with_piped_data_passed()
     {
         $result = app(\MichaelRubel\EnhancedPipeline\Pipeline::class)
             ->send('data')
@@ -43,7 +43,7 @@ class PipelineTest extends TestCase
     }
 
     /** @test */
-    public function runsThroughAnEntirePipeline()
+    public function runs_through_an_entire_pipeline()
     {
         $function1 = function ($piped, $next) {
             $piped = $piped + 1;
@@ -66,7 +66,7 @@ class PipelineTest extends TestCase
     }
 
     /** @test */
-    public function throwsExceptionFromPipeline()
+    public function throws_exception_from_pipeline()
     {
         $this->expectException(\UnexpectedValueException::class);
 
@@ -77,7 +77,7 @@ class PipelineTest extends TestCase
     }
 
     /** @test */
-    public function throwsExceptionWithInvalidPipeType()
+    public function throws_exception_with_invalid_pipe_type()
     {
         $this->expectException(BindingResolutionException::class);
 
@@ -88,7 +88,7 @@ class PipelineTest extends TestCase
     }
 
     /** @test */
-    public function acceptsClassStringsAsPipes()
+    public function accepts_class_strings_as_pipes()
     {
         $result = Pipeline::make()
             ->send('test data')
@@ -99,7 +99,7 @@ class PipelineTest extends TestCase
     }
 
     /** @test */
-    public function successfullyCompletesADatabaseTransaction()
+    public function successfully_completes_a_database_transaction()
     {
         $database = DB::spy();
 
@@ -115,7 +115,7 @@ class PipelineTest extends TestCase
     }
 
     /** @test */
-    public function rollsTheDatabaseTransactionBackOnFailure()
+    public function rolls_the_database_transaction_back_on_failure()
     {
         $database = DB::spy();
 
@@ -132,7 +132,7 @@ class PipelineTest extends TestCase
     }
 
     /** @test */
-    public function rollsTheDatabaseTransactionBackOnFailureWhenOnFailureMethodUsed()
+    public function rolls_the_database_transaction_back_on_failure_when_on_failure_method_used()
     {
         $database = DB::spy();
 
@@ -150,7 +150,7 @@ class PipelineTest extends TestCase
     }
 
     /** @test */
-    public function testCanOverrideOriginalPipeline()
+    public function test_can_override_original_pipeline()
     {
         $this->app->singleton(OriginalPipeline::class, Pipeline::class);
 
@@ -159,7 +159,7 @@ class PipelineTest extends TestCase
     }
 
     /** @test */
-    public function testCanOverrideEnhancedPipeline()
+    public function test_can_override_enhanced_pipeline()
     {
         $this->app->singleton(Pipeline::class, OriginalPipeline::class);
 

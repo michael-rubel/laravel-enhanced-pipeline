@@ -12,7 +12,7 @@ use stdClass;
 
 class OriginalPipelineTest extends TestCase
 {
-    public function testPipelineBasicUsage()
+    public function test_pipeline_basic_usage()
     {
         $pipeTwo = function ($piped, $next) {
             $_SERVER['__test.pipe.two'] = $piped;
@@ -34,7 +34,7 @@ class OriginalPipelineTest extends TestCase
         unset($_SERVER['__test.pipe.one'], $_SERVER['__test.pipe.two']);
     }
 
-    public function testPipelineUsageWithObjects()
+    public function test_pipeline_usage_with_objects()
     {
         $result = (new Pipeline(new Container))
             ->send('foo')
@@ -49,7 +49,7 @@ class OriginalPipelineTest extends TestCase
         unset($_SERVER['__test.pipe.one']);
     }
 
-    public function testPipelineUsageWithInvokableObjects()
+    public function test_pipeline_usage_with_invokable_objects()
     {
         $result = (new Pipeline(new Container))
             ->send('foo')
@@ -66,7 +66,7 @@ class OriginalPipelineTest extends TestCase
         unset($_SERVER['__test.pipe.one']);
     }
 
-    public function testPipelineUsageWithCallable()
+    public function test_pipeline_usage_with_callable()
     {
         $function = function ($piped, $next) {
             $_SERVER['__test.pipe.one'] = 'foo';
@@ -99,9 +99,9 @@ class OriginalPipelineTest extends TestCase
         unset($_SERVER['__test.pipe.one']);
     }
 
-    public function testPipelineUsageWithPipe()
+    public function test_pipeline_usage_with_pipe()
     {
-        $object = new stdClass();
+        $object = new stdClass;
 
         $object->value = 0;
 
@@ -125,7 +125,7 @@ class OriginalPipelineTest extends TestCase
         $this->assertEquals(2, $object->value);
     }
 
-    public function testPipelineUsageWithInvokableClass()
+    public function test_pipeline_usage_with_invokable_class()
     {
         $result = (new Pipeline(new Container))
             ->send('foo')
@@ -142,7 +142,7 @@ class OriginalPipelineTest extends TestCase
         unset($_SERVER['__test.pipe.one']);
     }
 
-    public function testThenMethodIsNotCalledIfThePipeReturns()
+    public function test_then_method_is_not_called_if_the_pipe_returns()
     {
         $_SERVER['__test.pipe.then'] = '(*_*)';
         $_SERVER['__test.pipe.second'] = '(*_*)';
@@ -168,7 +168,7 @@ class OriginalPipelineTest extends TestCase
         unset($_SERVER['__test.pipe.then']);
     }
 
-    public function testThenMethodInputValue()
+    public function test_then_method_input_value()
     {
         $result = (new Pipeline(new Container))
             ->send('foo')
@@ -177,12 +177,12 @@ class OriginalPipelineTest extends TestCase
 
                 $_SERVER['__test.pipe.return'] = $value;
 
-                return 'pipe::' . $value;
+                return 'pipe::'.$value;
             }])
             ->then(function ($piped) {
                 $_SERVER['__test.then.arg'] = $piped;
 
-                return 'then' . $piped;
+                return 'then'.$piped;
             });
 
         $this->assertSame('pipe::then::not_foo::', $result);
@@ -192,13 +192,13 @@ class OriginalPipelineTest extends TestCase
         unset($_SERVER['__test.pipe.return']);
     }
 
-    public function testPipelineUsageWithParameters()
+    public function test_pipeline_usage_with_parameters()
     {
         $parameters = ['one', 'two'];
 
         $result = (new Pipeline(new Container))
             ->send('foo')
-            ->through(PipelineTestParameterPipe::class . ':' . implode(',', $parameters))
+            ->through(PipelineTestParameterPipe::class.':'.implode(',', $parameters))
             ->then(function ($piped) {
                 return $piped;
             });
@@ -209,7 +209,7 @@ class OriginalPipelineTest extends TestCase
         unset($_SERVER['__test.pipe.parameters']);
     }
 
-    public function testPipelineViaChangesTheMethodBeingCalledOnThePipes()
+    public function test_pipeline_via_changes_the_method_being_called_on_the_pipes()
     {
         $pipelineInstance = new Pipeline(new Container);
         $result = $pipelineInstance->send('data')
@@ -221,7 +221,7 @@ class OriginalPipelineTest extends TestCase
         $this->assertSame('data', $result);
     }
 
-    public function testPipelineThrowsExceptionOnResolveWithoutContainer()
+    public function test_pipeline_throws_exception_on_resolve_without_container()
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('A container instance has not been passed to the Pipeline.');
@@ -233,7 +233,7 @@ class OriginalPipelineTest extends TestCase
             });
     }
 
-    public function testPipelineThenReturnMethodRunsPipelineThenReturnsPassable()
+    public function test_pipeline_then_return_method_runs_pipeline_then_returns_passable()
     {
         $result = (new Pipeline(new Container))
             ->send('foo')
@@ -246,7 +246,7 @@ class OriginalPipelineTest extends TestCase
         unset($_SERVER['__test.pipe.one']);
     }
 
-    public function testPipelineConditionable()
+    public function test_pipeline_conditionable()
     {
         $result = (new Pipeline(new Container))
             ->send('foo')
