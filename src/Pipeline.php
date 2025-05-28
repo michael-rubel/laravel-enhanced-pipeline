@@ -76,7 +76,7 @@ class Pipeline implements PipelineContract
             $container = ContainerConcrete::getInstance();
         }
 
-        return $container->make((string) static::class);
+        return $container->make(static::class);
     }
 
     /**
@@ -209,7 +209,7 @@ class Pipeline implements PipelineContract
      */
     protected function carry()
     {
-        return function (array $stack, $pipe) {
+        return function ($stack, $pipe) {
             return function ($passable) use ($stack, $pipe) {
                 $this->fireEvent(PipeExecutionStarted::class, $pipe, $passable);
 
@@ -252,9 +252,10 @@ class Pipeline implements PipelineContract
     /**
      * Parse full pipe string to get name and parameters.
      *
+     * @param  string  $pipe
      * @return array
      */
-    protected function parsePipeString(string $pipe)
+    protected function parsePipeString($pipe)
     {
         [$name, $parameters] = array_pad(explode(':', $pipe, 2), 2, []);
 
