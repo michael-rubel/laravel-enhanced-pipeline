@@ -19,13 +19,13 @@ jobs:
         include:
           - laravel: 10.*
             testbench: 8.*
-            carbon: 2.64.1
+            carbon_version: 2.64.1
           - laravel: 11.*
             testbench: 9.*
-            carbon: 2.64.1
+            carbon_version: 2.64.1
           - laravel: 12.*
             testbench: 10.*
-            carbon: 3.0.0
+            carbon_version: 3.0.0
         exclude:
           - laravel: 11.*
             php: 8.1
@@ -52,7 +52,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "nesbot/carbon:^2.64.1" --no-interaction --no-update
+          composer require "laravel/framework:${{ matrix.laravel }}" "nesbot/carbon:^${{ matrix.carbon_version }}" --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
       - name: Execute tests
