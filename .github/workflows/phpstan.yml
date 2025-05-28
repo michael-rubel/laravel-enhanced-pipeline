@@ -8,26 +8,40 @@ on:
 
 jobs:
   larastan:
-    name: "Running Larastan check"
+    name: L${{ matrix.laravel }} - Larastan${{ matrix.phpstan }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        laravel: ["10.*", "11.*", "12.*"]
+        include:
+          - laravel: "10.*"
+            phpstan: 1
+          - laravel: "11.*"
+            phpstan: 2
+          - laravel: "12.*"
+            phpstan: 2
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: "8.3"
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, intl
           coverage: none
 
       - name: Cache composer dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: vendor
           key: composer-${{ hashFiles('composer.lock') }}
 
       - name: Run composer install
-        run: composer install -n --prefer-dist
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
+          composer update --prefer-dist --no-interaction
 
       - name: Run phpstan
-        run: ./vendor/bin/phpstan
+        run: ./vendor/bin/phpstan --configuration=phpstan${{ matrix.phpstan }}.neon
