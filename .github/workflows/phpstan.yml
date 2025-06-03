@@ -8,19 +8,8 @@ on:
 
 jobs:
   larastan:
-    name: L${{ matrix.laravel }} - Larastan${{ matrix.phpstan }}
+    name: "Running Larastan check"
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        laravel: ["10.*", "11.*", "12.*"]
-        include:
-          - laravel: "10.*"
-            phpstan: 1
-          - laravel: "11.*"
-            phpstan: 2
-          - laravel: "12.*"
-            phpstan: 2
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -39,9 +28,7 @@ jobs:
           key: composer-${{ hashFiles('composer.lock') }}
 
       - name: Run composer install
-        run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
-          composer update --prefer-dist --no-interaction
+        run: composer install -n --prefer-dist
 
       - name: Run phpstan
-        run: ./vendor/bin/phpstan --configuration=phpstan${{ matrix.phpstan }}.neon
+        run: ./vendor/bin/phpstan

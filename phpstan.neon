@@ -11,8 +11,8 @@ parameters:
     ignoreErrors:
         - '#Parameter \#1 \$object_or_class of function method_exists expects object\|string, mixed given\.#'
         - '#Trying to invoke mixed but it(.*) not a callable\.#'
-
-    checkMissingIterableValueType: false
+        -
+            identifier: missingType.iterableValue
 
     reportUnmatchedIgnoredErrors: false
 
