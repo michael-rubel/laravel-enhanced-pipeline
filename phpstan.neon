@@ -11,8 +11,12 @@ parameters:
     ignoreErrors:
         - '#Parameter \#1 \$object_or_class of function method_exists expects object\|string, mixed given\.#'
         - '#Trying to invoke mixed but it(.*) not a callable\.#'
-
-    checkMissingIterableValueType: false
+        - '#Method (.*) should return (.*) but returns mixed\.#'
+        - '#Parameter \#\d+ \$(.*) of method (.*) expects (.*), mixed given\.#'
+        - '#Parameter \#\d+ \$(.*) of function (.*) expects (.*), mixed given\.#'
+        - '#Parameter \#2 \.\.\.\$arrays of function array_merge expects array, mixed given\.#'
+        -
+            identifier: missingType.iterableValue
 
     reportUnmatchedIgnoredErrors: false
 
